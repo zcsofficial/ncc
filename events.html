@@ -36,48 +36,60 @@
     </section>
 
     <script>
-        // Load and display events from local storage
-        function loadEvents() {
-            const eventsList = document.getElementById('eventsList');
-            const allEvents = JSON.parse(localStorage.getItem('allEvents')) || [];
-            eventsList.innerHTML = '';
+        const apiUrl = "https://ncc-yx15.onrender.com/api/events"; // Backend API URL
 
-            allEvents.forEach((event, index) => {
-                const eventCard = document.createElement('div');
-                eventCard.classList.add('accordion-item');
-                eventCard.innerHTML = `
-                    <h2 class="accordion-header" id="heading${index}">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="true" aria-controls="collapse${index}">
-                            ${event.eventName}
-                        </button>
-                    </h2>
-                    <div id="collapse${index}" class="accordion-collapse collapse" aria-labelledby="heading${index}">
-                        <div class="accordion-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Cadet ID</th>
-                                        <th>Name</th>
-                                        <th>Rank</th>
-                                        <th>Present</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${event.attendanceData.map(cadet => `
+        // Load and display events from the backend
+        async function loadEvents() {
+            const eventsList = document.getElementById('eventsList');
+            eventsList.innerHTML = ''; // Clear any existing data
+
+            try {
+                const response = await fetch(apiUrl); // Fetch events from backend
+                if (!response.ok) throw new Error('Failed to fetch events data');
+
+                const allEvents = await response.json();
+
+                // Populate the accordion with event data
+                allEvents.forEach((event, index) => {
+                    const eventCard = document.createElement('div');
+                    eventCard.classList.add('accordion-item');
+                    eventCard.innerHTML = `
+                        <h2 class="accordion-header" id="heading${index}">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="true" aria-controls="collapse${index}">
+                                ${event.eventName}
+                            </button>
+                        </h2>
+                        <div id="collapse${index}" class="accordion-collapse collapse" aria-labelledby="heading${index}">
+                            <div class="accordion-body">
+                                <table class="table table-bordered">
+                                    <thead>
                                         <tr>
-                                            <td>${cadet.cadetID}</td>
-                                            <td>${cadet.name}</td>
-                                            <td>${cadet.rank}</td>
-                                            <td>${cadet.isPresent ? 'Yes' : 'No'}</td>
+                                            <th>Cadet ID</th>
+                                            <th>Name</th>
+                                            <th>Rank</th>
+                                            <th>Present</th>
                                         </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        ${event.attendanceData.map(cadet => `
+                                            <tr>
+                                                <td>${cadet.cadetID}</td>
+                                                <td>${cadet.name}</td>
+                                                <td>${cadet.rank}</td>
+                                                <td>${cadet.isPresent ? 'Yes' : 'No'}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                `;
-                eventsList.appendChild(eventCard);
-            });
+                    `;
+                    eventsList.appendChild(eventCard);
+                });
+            } catch (error) {
+                console.error('Error loading events:', error);
+                eventsList.innerHTML = '<p class="text-danger text-center">Failed to load events. Please try again later.</p>';
+            }
         }
 
         // Load events when the page is loaded
