@@ -89,6 +89,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script>
+        const apiUrl = "https://ncc-yx15.onrender.com/api/events";  // API base URL
+
         // Show the event modal on page load
         window.addEventListener('load', () => {
             const eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
@@ -100,15 +102,15 @@
             const eventName = document.getElementById("eventName").value;
             if (eventName) {
                 document.getElementById("eventDisplay").textContent = eventName;
-                localStorage.setItem('currentEvent', eventName); // Save to local storage
+                sessionStorage.setItem('currentEvent', eventName);  // Save to session storage
                 const eventModal = bootstrap.Modal.getInstance(document.getElementById('eventModal'));
                 eventModal.hide();
             }
         }
 
-        // Collect attendance data and save it to local storage
-        function submitAttendance() {
-            const eventName = localStorage.getItem('currentEvent');
+        // Collect attendance data and send it to the backend
+        async function submitAttendance() {
+            const eventName = sessionStorage.getItem('currentEvent');
             const cadets = document.querySelectorAll('#cadetTable tr');
             const attendanceData = [];
 
@@ -120,10 +122,25 @@
                 attendanceData.push({ cadetID, name, rank, isPresent });
             });
 
-            const allEvents = JSON.parse(localStorage.getItem('allEvents')) || [];
-            allEvents.push({ eventName, attendanceData });
-            localStorage.setItem('allEvents', JSON.stringify(allEvents));
-            alert("Attendance submitted successfully!");
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ eventName, attendanceData })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(result.message || "Attendance submitted successfully!");
+                } else {
+                    throw new Error("Failed to submit attendance.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error submitting attendance. Please try again later.");
+            }
         }
     </script>
 </body>
