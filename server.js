@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// MongoDB Connection
+// MongoDB Connection (Make sure to replace with your actual MongoDB URI)
 const mongoURI = 'mongodb+srv://adnankstheredteamlabs:Adnan%4066202@cluster0.qrppz7h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
@@ -19,19 +19,20 @@ mongoose.connect(mongoURI, {
 
 // Mongoose Schema and Models
 const cadetSchema = new mongoose.Schema({
-    cadetID: String,
-    name: String,
-    rank: String,
-    isPresent: Boolean
+    cadetID: { type: String, required: true },
+    name: { type: String, required: true },
+    rank: { type: String, required: true },
+    isPresent: { type: Boolean, default: false }
 });
 
 const eventSchema = new mongoose.Schema({
-    eventName: String,
+    eventName: { type: String, required: true },
     attendanceData: [cadetSchema],
     date: { type: Date, default: Date.now }
 });
 
 const Event = mongoose.model('Event', eventSchema);
+const Cadet = mongoose.model('Cadet', cadetSchema); // Cadet model for fetching data
 
 // Routes
 
@@ -57,16 +58,13 @@ app.get('/api/events', async (req, res) => {
     }
 });
 
-// Get Single Event by ID
-app.get('/api/events/:id', async (req, res) => {
+// Get All Cadets
+app.get('/api/cadets', async (req, res) => {
     try {
-        const event = await Event.findById(req.params.id);
-        if (!event) {
-            return res.status(404).json({ message: 'Event not found' });
-        }
-        res.json(event);
+        const cadets = await Cadet.find();
+        res.json(cadets);
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching event', error });
+        res.status(500).json({ message: 'Error fetching cadets', error });
     }
 });
 
