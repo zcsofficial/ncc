@@ -1,81 +1,76 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+// Set up Express App
 const app = express();
-
-// Middleware
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
-// MongoDB connection
-mongoose.connect('mongodb+srv://adnankstheredteamlabs:Adnan%4066202@cluster0.qrppz7h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+// MongoDB Connection
+const mongoURI = 'mongodb+srv://adnankstheredteamlabs:Adnan%4066202@cluster0.qrppz7h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+    useUnifiedTopology: true
+})
+.then(() => console.log('Connected to MongoDB Atlas'))
+.catch(error => console.error('Error connecting to MongoDB:', error));
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-    console.log('Connected to MongoDB');
-});
-
-// Cadet Schema
+// Mongoose Schema and Models
 const cadetSchema = new mongoose.Schema({
-    cadetID: { type: String, required: true },
-    name: { type: String, required: true },
-    rank: { type: String, required: true },
-    year: { type: Number, required: true }
+    cadetID: String,
+    name: String,
+    rank: String,
+    isPresent: Boolean
 });
-const Cadet = mongoose.model('Cadet', cadetSchema);
 
-// Attendance Schema
-const attendanceSchema = new mongoose.Schema({
-    eventName: { type: String, required: true },
-    attendanceData: [
-        {
-            cadetID: String,
-            isPresent: Boolean
-        }
-    ]
+const eventSchema = new mongoose.Schema({
+    eventName: String,
+    attendanceData: [cadetSchema],
+    date: { type: Date, default: Date.now }
 });
-const Attendance = mongoose.model('Attendance', attendanceSchema);
 
-// Endpoint to fetch all cadets
-app.get('/api/cadets', async (req, res) => {
+const Event = mongoose.model('Event', eventSchema);
+
+// Routes
+
+// Create a New Event with Attendance Data
+app.post('/api/events', async (req, res) => {
     try {
-        const cadets = await Cadet.find();
-        res.json(cadets);
+        const { eventName, attendanceData } = req.body;
+        const newEvent = new Event({ eventName, attendanceData });
+        await newEvent.save();
+        res.status(201).json({ message: 'Attendance data saved successfully' });
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Error retrieving cadet data');
+        res.status(500).json({ message: 'Error saving attendance data', error });
     }
 });
 
-// Endpoint to save attendance
-app.post('/api/attendance', async (req, res) => {
-    const { eventName, attendanceData } = req.body;
-    try {
-        const attendance = new Attendance({ eventName, attendanceData });
-        await attendance.save();
-        res.status(201).send('Attendance recorded successfully');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error saving attendance');
-    }
-});
-
-// Endpoint to get all attendance events
+// Get All Events
 app.get('/api/events', async (req, res) => {
     try {
-        const events = await Attendance.find();
+        const events = await Event.find();
         res.json(events);
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Error retrieving events');
+        res.status(500).json({ message: 'Error fetching events', error });
     }
 });
 
-// Start server
+// Get Single Event by ID
+app.get('/api/events/:id', async (req, res) => {
+    try {
+        const event = await Event.findById(req.params.id);
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+        res.json(event);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching event', error });
+    }
+});
+
+// Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
