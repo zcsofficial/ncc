@@ -87,6 +87,7 @@
         .blog-post-1 .image {
             flex: 1;
             margin-right: 20px;
+            max-width: 300px;
         }
         .blog-post-1 .image img {
             width: 100%;
@@ -95,28 +96,12 @@
         }
         .blog-post-1 .text {
             flex: 2;
+            max-width: 70%;
+            margin: 0 auto;
+            text-align: center;
         }
-        .blog-post-1 h2 {
-            font-size: 24px;
-            margin: 0 0 10px 0;
-        }
-        .blog-post-1 p {
-            font-size: 16px;
-            line-height: 1.5;
-            margin: 0 0 20px 0;
-        }
-        .blog-post-1 .links {
-            display: flex;
-            flex-direction: column;
-        }
-        .blog-post-1 .links a {
-            text-decoration: none;
-            color: #000;
-            font-size: 16px;
-            margin-bottom: 10px;
-            position: relative;
-        }        .blog-post-1 .links a i {
-            margin-right: 10px;
+        .blog-post-2 {
+            text-align: center;
         }
         .blog-post-2 .image-container {
             border-radius: 8px;
@@ -128,73 +113,41 @@
             height: 300px;
             object-fit: cover;
         }
+        .blog-post-1 .text h2,
         .blog-post-2 .title {
-            font-size: 36px;
-            font-weight: bold;
+            font-size: 24px;
             margin-bottom: 20px;
         }
+        .blog-post-1 p,
         .blog-post-2 .content {
             font-size: 16px;
-            text-align: left;
-            margin-bottom: 20px;
+            line-height: 1.6;
+            margin: 0 auto 20px;
+            max-width: 70ch;
         }
-        .blog-post-2 .link {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .blog-post-2 .link i {
-            margin-right: 10px;
-        }
-        .blog-post-2 .author {
-            display: flex;
-            align-items: center;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: left;
-            margin-bottom: 40px;
-        }
-        .blog-post-2 .author i {
-            margin-right: 10px;
-        }
-        .divider {
-            border-top: 1px solid #000;
-            margin: 40px 0;
-        }
-    
+        .blog-post-1 .links,
         .blog-post-2 .links {
-            display: flex;
-            flex-direction: column;
+            text-align: center;
+            margin-top: 20px;
         }
+        .blog-post-1 .links a,
         .blog-post-2 .links a {
             text-decoration: none;
             color: #000;
             font-size: 16px;
             margin-bottom: 10px;
-            position: relative;
-        }        .blog-post-2 .links a i {
-            margin-right: 10px;
+            display: inline-block;
+            margin: 0 10px;
         }
-
-<style>
-    /* ... (previous styles remain the same) ... */
-    .blog-post-1 .links a::after,
-    .blog-post-2 .links a::after {
-        content: none; /* This removes the underline */
-    }
-    /* ... (rest of the styles remain the same) ... */
-
-<style>
-    /* ... (previous styles remain the same) ... */
-    .blog-post-1 .links a::after,
-    .blog-post-2 .links a::after {
-        content: none; /* This removes the underline */
-    }
-    /* Remove any other ::after rules for .links a */
-    /* ... (rest of the styles remain the same) ... */
-</style>
-</style>
-</style>
+        .blog-post-1 .links a i,
+        .blog-post-2 .links a i {
+            margin-right: 5px;
+        }
+        .divider {
+            border-top: 1px solid #000;
+            margin: 40px 0;
+        }
+    </style>
 </head>
 <body>
     <nav>
