@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog with Navigation</title>
+    <title>Blog with Navigation and Cards</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <style>
         body {
@@ -62,7 +62,7 @@
         }
         .header {
             text-align: center;
-            font-size: 36px;
+            font-size: 48px;
             font-weight: bold;
             margin-bottom: 40px;
             position: relative;
@@ -114,7 +114,7 @@
             object-fit: cover;
         }
         .blog-post-1 .text h2,
-        .blog-post-2 .title {
+        .blog-post-2 .Title {
             font-size: 24px;
             margin-bottom: 20px;
         }
@@ -147,6 +147,49 @@
             border-top: 1px solid #000;
             margin: 40px 0;
         }
+        .card-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 30%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        .card img {
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .card h2 {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        .card p {
+            font-size: 0.9em;
+            color: #555;
+            text-align: left;
+        }
+        .card .author {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 10px;
+        }
+        .card .author i {
+            margin-right: 5px;
+        }
+        .card-divider {
+            width: 1px;
+            background-color: #bbb;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -172,7 +215,7 @@
                 <img alt="Two people standing outdoors in formal and casual attire" src="https://storage.googleapis.com/a1aa/image/nQqX108fSPSJXSeggjziaJoCSX4A6PtzTjQUgffENarWE13OB.jpg" width="300" height="400"/>
             </div>
             <div class="text">
-                <h2>Titel</h2>
+                <h2>Title</h2>
                 <p>
                     There are two types of clauses: independent and non-independent/interdependent. An independent clause realises a speech act such as a statement, a question, a command or an offer. A non-independent clause does not realise any act. A non-independent clause (simplex or complex) is usually logically related to other non-independent clauses. Together, they usually constitute a single independent clause (complex).
                 </p>
@@ -181,38 +224,67 @@
                         <i class="fab fa-instagram"></i>
                         https://www.instagram.com
                     </a>
-                    <a href="#">
-                        <i class="fas fa-user"></i>
-                        BAYIS ISMAIL
-                    </a>
+                    <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 10px;">
+                        <a href="#" style="margin-right: 5px;">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <span>Author Placeholder</span>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="divider"></div>
         
-    <div class="blog-post blog-post-2">
-        <div class="image-container">
-            <img alt="A group of people in uniform posing for a photo" src="https://storage.googleapis.com/a1aa/image/GLLeUKp7jZQNPaneyPZbDJZJkoWzeuQrl0yPTmbUjljfeqvdC.jpg"/>
+        <div class="blog-post blog-post-2">
+            <div class="image-container">
+                <img alt="A group of people in uniform posing for a photo" src="https://storage.googleapis.com/a1aa/image/GLLeUKp7jZQNPaneyPZbDJZJkoWzeuQrl0yPTmbUjljfeqvdC.jpg"/>
+            </div>
+            <div class="Title">
+                Title
+            </div>
+            <div class="content">
+                There are two types of clauses: independent and non-independent/interdependent. An independent clause realises a speech act such as a statement, a question, a command or an offer. A non-independent clause does not realise any act. A non-independent clause (simplex or complex) is usually logically related to other non-independent clauses. Together, they usually constitute a single independent clause (complex).
+            </div>
+            <div class="links">
+                <a href="https://en.wikipedia.org/wiki/Sentence_(linguistics)" target="_blank">
+                    <i class="fas fa-link"></i>
+                    https://en.wikipedia.org/wiki/Sentence_(linguistics)
+                </a>
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-top: 10px;">
+                    <a href="#" style="margin-right: 5px;">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <span>Author Placeholder</span>
+                </div>
+            </div>
         </div>
-        <div class="title">
-            Titel
-        </div>
-        <div class="content">
-            There are two types of clauses: independent and non-independent/interdependent. An independent clause realises a speech act such as a statement, a question, a command or an offer. A non-independent clause does not realise any act. A non-independent clause (simplex or complex) is usually logically related to other non-independent clauses. Together, they usually constitute a single independent clause (complex).
-        </div>
-        <div class="links">
-            <a href="https://en.wikipedia.org/wiki/Sentence_(linguistics)" target="_blank">
-                <i class="fas fa-link"></i>
-                https://en.wikipedia.org/wiki/Sentence_(linguistics)
-            </a>
-            <a href="#">
-                <i class="fas fa-user"></i>
-                BAYIS ISMAIL
-            </a>
+        <div class="divider"></div>
+
+        <div class="card-container">
+            <div class="card">
+                <img alt="Poster of a soldier with text congratulating him for being selected for a camp" height="400" src="https://storage.googleapis.com/a1aa/image/UaK6mUK04DL5Pt781r10juvs97gBd28AfXBJj9tSfxV6sebnA.jpg" width="300"/>
+                <h2>Titel</h2>
+                <p>
+                    offer. A non-independent clause does not realise any act. A non-independent clause (simplex or complex) is usually logically related to other non-independent clauses. Together, they usually constitute a single independent clause (complex).
+                </p>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card">
+                <img alt="Poster of a man waving with text wishing him a happy birthday" height="400" src="https://storage.googleapis.com/a1aa/image/pY3gIh7cNT64JFYfihNEdTd30oNTwFdTLa1u8wvcxq6dWftTA.jpg" width="300"/>
+                <h2>Titel</h2>
+                <p>
+                    offer. A non-independent clause does not realise any act. A non-independent clause (simplex or complex) is usually logically related to other non-independent clauses. Together, they usually constitute a single independent clause (complex).
+                </p>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card">
+                <img alt="Poster of an event with text about a day with NCC cadets" height="400" src="https://storage.googleapis.com/a1aa/image/YiA7ccEGy2ZFAxfxCZY4MYfasD0PIknrN1YXfIxfqIeqn1vdC.jpg" width="300"/>
+                <h2>Titel</h2>
+                <p>
+                    offer. A non-independent clause does not realise any act. A non-independent clause (simplex or complex) is usually logically related to other non-independent clauses. Together, they usually constitute a single independent clause (complex).
+                </p>
+            </div>
         </div>
     </div>
-    <div class="divider"></div>
-
-</div>
 </body>
 </html>
